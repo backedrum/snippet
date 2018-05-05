@@ -5,12 +5,11 @@ import com.backedrum.model.BaseEntity;
 import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 public interface ItemsService<T extends BaseEntity> {
 
-    @Transactional
     void addItem(T entity);
 
-    @Transactional
     void removeItem(Long id);
 
     List<T> retrieveAllItems();

@@ -1,5 +1,6 @@
 package com.backedrum.component;
 
+import com.backedrum.model.Image;
 import com.backedrum.model.Screenshot;
 import com.backedrum.service.ItemsService;
 import lombok.val;
@@ -9,7 +10,6 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
     private static final long serialVersionUID = 1L;
@@ -43,7 +44,7 @@ public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
 
         val listContainer = new WebMarkupContainer("screenshotsContainer");
         listContainer.setOutputMarkupId(true);
-        listContainer.add(new PropertyListView<Screenshot>("screenshots", screenshots) {
+        listContainer.add(new PropertyListView<>("screenshots", screenshots) {
             @Override
             protected void populateItem(ListItem<Screenshot> listItem) {
                 listItem.add(new Label("dateTime"));
@@ -59,19 +60,26 @@ public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
                 listItem.add(removeLink);
 
                 listItem.add(new Label("title"));
-                listItem.add(new NonCachingImage("screenshotImage", new DynamicImageResource() {
+
+                listItem.add(new PropertyListView<>("images", listItem.getModelObject().getImages()) {
                     @Override
-                    protected byte[] getImageData(Attributes attributes) {
-                        return listItem.getModelObject().getImage();
+                    protected void populateItem(ListItem<Image> image) {
+                        image.add(new NonCachingImage("screenshotImage", new DynamicImageResource() {
+                            @Override
+                            protected byte[] getImageData(Attributes attributes) {
+                                return image.getModelObject().getImage();
+                            }
+                        }));
                     }
-                }));
+                });
+
             }
         });
 
         add(listContainer).setVersioned(false);
     }
 
-    public final class ScreenshotForm extends Form<ValueMap> {
+    public class ScreenshotForm extends Form<ValueMap> {
         private FileUploadField fileUploadField;
 
         ScreenshotForm(String id) {
@@ -85,20 +93,21 @@ public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
 
             add(fileUploadField = new FileUploadField("screenshotUpload"));
 
-            setMaxSize(Bytes.kilobytes(512));
-            setFileMaxSize(Bytes.kilobytes(512));
+            setMaxSize(Bytes.kilobytes(20480));
+            setFileMaxSize(Bytes.kilobytes(3072));
         }
 
         @Override
         protected void onSubmit() {
             ValueMap values = getModelObject();
 
-            FileUpload last = fileUploadField.getFileUploads().get(fileUploadField.getFileUploads().size() - 1);
+            val images = fileUploadField.getFileUploads().stream()
+                    .map(u -> Image.builder().image(u.getBytes()).build()).collect(Collectors.toList());
 
             val screenshot = Screenshot.builder()
                     .dateTime(LocalDateTime.now())
                     .title((String) values.get("title"))
-                    .image(last.getBytes()).build();
+                    .images(images).build();
             screenshotService.addItem(screenshot);
 
             values.put("title", "");
