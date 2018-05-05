@@ -1,8 +1,11 @@
 package com.backedrum.component;
 
+import com.backedrum.component.util.Utils;
+import com.backedrum.model.BaseEntity;
 import com.backedrum.model.Image;
 import com.backedrum.model.Screenshot;
 import com.backedrum.service.ItemsService;
+import com.googlecode.wicket.jquery.ui.widget.tooltip.TooltipBehavior;
 import lombok.val;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -23,6 +26,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +44,8 @@ public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
         val form = new ScreenshotForm("screenshotsForm");
         add(form);
 
-        IModel<List<Screenshot>> screenshots = (IModel<List<Screenshot>>) () -> screenshotService.retrieveAllItems();
+        IModel<List<Screenshot>> screenshots = (IModel<List<Screenshot>>) () -> screenshotService.retrieveAllItems()
+                .stream().sorted(Comparator.comparing(BaseEntity::getTitle)).collect(Collectors.toList());
 
         val listContainer = new WebMarkupContainer("screenshotsContainer");
         listContainer.setOutputMarkupId(true);
@@ -59,7 +64,7 @@ public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
                 removeLink.setDefaultFormProcessing(false);
                 listItem.add(removeLink);
 
-                listItem.add(new Label("title"));
+                listItem.add(Utils.constructTitle(screenshotService, listItem.getModelObject(), listContainer));
 
                 listItem.add(new PropertyListView<>("images", listItem.getModelObject().getImages()) {
                     @Override
@@ -75,6 +80,8 @@ public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
 
             }
         });
+
+        add(new TooltipBehavior());
 
         add(listContainer).setVersioned(false);
     }

@@ -1,7 +1,10 @@
 package com.backedrum.component;
 
+import com.backedrum.component.util.Utils;
+import com.backedrum.model.BaseEntity;
 import com.backedrum.model.HowTo;
 import com.backedrum.service.ItemsService;
+import com.googlecode.wicket.jquery.ui.widget.tooltip.TooltipBehavior;
 import lombok.val;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -21,7 +24,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HowTosPage extends BasePage implements AuthenticatedPage {
 
@@ -39,7 +44,8 @@ public class HowTosPage extends BasePage implements AuthenticatedPage {
 
         add(form);
 
-        IModel<List<HowTo>> howToList = (IModel<List<HowTo>>) () -> howtoService.retrieveAllItems();
+        IModel<List<HowTo>> howToList = (IModel<List<HowTo>>) () -> howtoService.retrieveAllItems()
+                .stream().sorted(Comparator.comparing(BaseEntity::getTitle)).collect(Collectors.toList());
 
         val listContainer = new WebMarkupContainer("howtosContainer");
         listContainer.setOutputMarkupId(true);
@@ -58,7 +64,7 @@ public class HowTosPage extends BasePage implements AuthenticatedPage {
                 removeLink.setDefaultFormProcessing(false);
                 listItem.add(removeLink);
 
-                listItem.add(new Label("title"));
+                listItem.add(Utils.constructTitle(howtoService, listItem.getModelObject(), listContainer));
 
                 val howToText = new AjaxEditableMultiLineLabel<>("text", new PropertyModel<>(listItem.getModelObject(), "text")) {
                     @Override
@@ -75,6 +81,8 @@ public class HowTosPage extends BasePage implements AuthenticatedPage {
                 listItem.add(howToText);
             }
         });
+
+        add(new TooltipBehavior());
 
         add(listContainer).setVersioned(false);
     }

@@ -1,7 +1,10 @@
 package com.backedrum.component;
 
+import com.backedrum.component.util.Utils;
+import com.backedrum.model.BaseEntity;
 import com.backedrum.model.SourceCodeSnippet;
 import com.backedrum.service.ItemsService;
+import com.googlecode.wicket.jquery.ui.widget.tooltip.TooltipBehavior;
 import lombok.val;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -20,24 +23,27 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CodeSnippetsPage extends BasePage implements AuthenticatedPage {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Qualifier("snippetService")
+    @Qualifier("snippetService")
     @Inject
     private ItemsService<SourceCodeSnippet> snippetService;
 
     /**
-	 * Constructor that is invoked when page is invoked without a session.
-	 */
+     * Constructor that is invoked when page is invoked without a session.
+     */
     public CodeSnippetsPage() {
         val form = new SourceCodeSnippetForm("snippetsForm");
         add(form);
 
-        IModel<List<SourceCodeSnippet>> snippets = (IModel<List<SourceCodeSnippet>>) () -> snippetService.retrieveAllItems();
+        IModel<List<SourceCodeSnippet>> snippets = (IModel<List<SourceCodeSnippet>>) () -> snippetService.retrieveAllItems()
+                .stream().sorted(Comparator.comparing(BaseEntity::getTitle)).collect(Collectors.toList());
 
         val listContainer = new WebMarkupContainer("snippetsContainer");
         listContainer.setOutputMarkupId(true);
@@ -56,39 +62,42 @@ public class CodeSnippetsPage extends BasePage implements AuthenticatedPage {
                 removeLink.setDefaultFormProcessing(false);
                 listItem.add(removeLink);
 
-                listItem.add(new Label("title"));
+                listItem.add(Utils.constructTitle(snippetService, listItem.getModelObject(), listContainer));
+
                 listItem.add(new MultiLineLabel("sourceCode"));
             }
         });
+
+        add(new TooltipBehavior());
 
         add(listContainer).setVersioned(false);
     }
 
     public final class SourceCodeSnippetForm extends Form<ValueMap> {
 
-		SourceCodeSnippetForm(String id) {
-			super(id, new CompoundPropertyModel<>(new ValueMap()));
+        SourceCodeSnippetForm(String id) {
+            super(id, new CompoundPropertyModel<>(new ValueMap()));
 
-			setMarkupId("snippetsForm");
+            setMarkupId("snippetsForm");
 
-			add(new TextField<>("title").setType(String.class));
-			add(new TextArea<>("sourceCode").setType(String.class));
-		}
+            add(new TextField<>("title").setType(String.class));
+            add(new TextArea<>("sourceCode").setType(String.class));
+        }
 
-		@Override
-		protected void onSubmit() {
-			ValueMap values = getModelObject();
+        @Override
+        protected void onSubmit() {
+            ValueMap values = getModelObject();
 
-			val snippet = SourceCodeSnippet.builder()
-					.dateTime(LocalDateTime.now())
-					.title((String) values.get("title"))
-					.sourceCode((String) values.get("sourceCode")).build();
-			snippetService.saveItem(snippet);
+            val snippet = SourceCodeSnippet.builder()
+                    .dateTime(LocalDateTime.now())
+                    .title((String) values.get("title"))
+                    .sourceCode((String) values.get("sourceCode")).build();
+            snippetService.saveItem(snippet);
 
-			values.put("title", "");
-			values.put("sourceCode", "");
+            values.put("title", "");
+            values.put("sourceCode", "");
 
-			setResponsePage(CodeSnippetsPage.class);
-		}
-	}
+            setResponsePage(CodeSnippetsPage.class);
+        }
+    }
 }
