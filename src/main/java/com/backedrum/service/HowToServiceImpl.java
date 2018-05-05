@@ -18,7 +18,7 @@ public class HowToServiceImpl implements ItemsService<HowTo> {
     }
 
     @Override
-    public void addItem(HowTo entity) {
+    public void saveItem(HowTo entity) {
         repository.save(entity);
     }
 

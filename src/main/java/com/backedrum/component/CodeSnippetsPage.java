@@ -41,7 +41,7 @@ public class CodeSnippetsPage extends BasePage implements AuthenticatedPage {
 
         val listContainer = new WebMarkupContainer("snippetsContainer");
         listContainer.setOutputMarkupId(true);
-        listContainer.add(new PropertyListView<SourceCodeSnippet>("snippets", snippets) {
+        listContainer.add(new PropertyListView<>("snippets", snippets) {
             @Override
             protected void populateItem(ListItem<SourceCodeSnippet> listItem) {
                 listItem.add(new Label("dateTime"));
@@ -83,7 +83,7 @@ public class CodeSnippetsPage extends BasePage implements AuthenticatedPage {
 					.dateTime(LocalDateTime.now())
 					.title((String) values.get("title"))
 					.sourceCode((String) values.get("sourceCode")).build();
-			snippetService.addItem(snippet);
+			snippetService.saveItem(snippet);
 
 			values.put("title", "");
 			values.put("sourceCode", "");

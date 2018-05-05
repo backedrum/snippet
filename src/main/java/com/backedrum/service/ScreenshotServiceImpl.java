@@ -18,7 +18,7 @@ public class ScreenshotServiceImpl implements ItemsService<Screenshot> {
     }
 
     @Override
-    public void addItem(Screenshot entity) {
+    public void saveItem(Screenshot entity) {
         repository.save(entity);
     }
 

@@ -5,9 +5,9 @@ import com.backedrum.service.ItemsService;
 import lombok.val;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
+import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableMultiLineLabel;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
@@ -15,6 +15,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -42,7 +43,7 @@ public class HowTosPage extends BasePage implements AuthenticatedPage {
 
         val listContainer = new WebMarkupContainer("howtosContainer");
         listContainer.setOutputMarkupId(true);
-        listContainer.add(new PropertyListView<HowTo>("howtos", howToList) {
+        listContainer.add(new PropertyListView<>("howtos", howToList) {
             @Override
             protected void populateItem(ListItem<HowTo> listItem) {
                 listItem.add(new Label("dateTime"));
@@ -58,7 +59,20 @@ public class HowTosPage extends BasePage implements AuthenticatedPage {
                 listItem.add(removeLink);
 
                 listItem.add(new Label("title"));
-                listItem.add(new MultiLineLabel("text"));
+
+                val howToText = new AjaxEditableMultiLineLabel<>("text", new PropertyModel<>(listItem.getModelObject(), "text")) {
+                    @Override
+                    protected void onSubmit(AjaxRequestTarget target) {
+                        val howTo = listItem.getModelObject();
+                        howTo.setText(getEditor().getValue());
+                        howtoService.saveItem(howTo);
+
+                        super.onSubmit(target);
+                        target.add(listContainer);
+                    }
+                };
+
+                listItem.add(howToText);
             }
         });
 
@@ -84,7 +98,7 @@ public class HowTosPage extends BasePage implements AuthenticatedPage {
                     .dateTime(LocalDateTime.now())
                     .title((String) values.get("title"))
                     .text((String) values.get("text")).build();
-            howtoService.addItem(howto);
+            howtoService.saveItem(howto);
 
             values.put("title", "");
             values.put("text", "");

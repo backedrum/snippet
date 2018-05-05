@@ -18,7 +18,7 @@ public class SnippetServiceImpl implements ItemsService<SourceCodeSnippet> {
     }
 
     @Override
-    public void addItem(SourceCodeSnippet snippet) {
+    public void saveItem(SourceCodeSnippet snippet) {
         repository.save(snippet);
     }
 

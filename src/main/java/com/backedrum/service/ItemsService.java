@@ -8,7 +8,7 @@ import java.util.List;
 @Transactional
 public interface ItemsService<T extends BaseEntity> {
 
-    void addItem(T entity);
+    void saveItem(T entity);
 
     void removeItem(Long id);
 

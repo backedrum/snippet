@@ -108,7 +108,7 @@ public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
                     .dateTime(LocalDateTime.now())
                     .title((String) values.get("title"))
                     .images(images).build();
-            screenshotService.addItem(screenshot);
+            screenshotService.saveItem(screenshot);
 
             values.put("title", "");
 
