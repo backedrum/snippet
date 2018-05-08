@@ -2,9 +2,9 @@ package com.backedrum.service;
 
 import com.backedrum.model.HowTo;
 import com.backedrum.repository.HowToRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.List;
 
 @Service("howtoService")
@@ -12,7 +12,7 @@ public class HowToServiceImpl implements ItemsService<HowTo> {
 
     private final HowToRepository repository;
 
-    @Inject
+    @Autowired
     public HowToServiceImpl(HowToRepository repository) {
         this.repository = repository;
     }

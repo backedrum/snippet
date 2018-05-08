@@ -20,11 +20,10 @@ import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.resource.DynamicImageResource;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
 import org.apache.wicket.util.value.ValueMap;
-import org.springframework.beans.factory.annotation.Qualifier;
 
-import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
@@ -33,8 +32,7 @@ import java.util.stream.Collectors;
 public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
     private static final long serialVersionUID = 1L;
 
-    @Qualifier("screenshotService")
-    @Inject
+    @SpringBean(name = "screenshotService")
     private ItemsService<Screenshot> screenshotService;
 
     /**

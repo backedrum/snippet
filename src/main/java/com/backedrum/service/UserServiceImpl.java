@@ -2,9 +2,9 @@ package com.backedrum.service;
 
 import com.backedrum.model.User;
 import com.backedrum.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 
 @Service
@@ -13,7 +13,7 @@ public class UserServiceImpl {
 
     private UserRepository repository;
 
-    @Inject
+    @Autowired
     public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
     }

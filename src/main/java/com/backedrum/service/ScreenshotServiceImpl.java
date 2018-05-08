@@ -2,9 +2,9 @@ package com.backedrum.service;
 
 import com.backedrum.model.Screenshot;
 import com.backedrum.repository.ScreenshotRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.List;
 
 @Service("screenshotService")
@@ -12,7 +12,7 @@ public class ScreenshotServiceImpl implements ItemsService<Screenshot> {
 
     private final ScreenshotRepository repository;
 
-    @Inject
+    @Autowired
     public ScreenshotServiceImpl(ScreenshotRepository repository) {
         this.repository = repository;
     }

@@ -2,9 +2,9 @@ package com.backedrum.service;
 
 import com.backedrum.model.SourceCodeSnippet;
 import com.backedrum.repository.SnippetRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.List;
 
 @Service("snippetService")
@@ -12,7 +12,7 @@ public class SnippetServiceImpl implements ItemsService<SourceCodeSnippet> {
 
     private final SnippetRepository repository;
 
-    @Inject
+    @Autowired
     public SnippetServiceImpl(SnippetRepository repository) {
         this.repository = repository;
     }
