@@ -80,8 +80,8 @@ public class CodeSnippetsPage extends BasePage implements AuthenticatedPage {
 
             setMarkupId("snippetsForm");
 
-            add(new TextField<>("title").setType(String.class));
-            add(new TextArea<>("sourceCode").setType(String.class));
+            add(new TextField<>("title").setType(String.class).setRequired(true));
+            add(new TextArea<>("sourceCode").setType(String.class).setRequired(true));
         }
 
         @Override

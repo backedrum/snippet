@@ -20,6 +20,7 @@ import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.request.component.IRequestableComponent;
 import org.apache.wicket.request.component.IRequestablePage;
+import org.apache.wicket.settings.MarkupSettings;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
 /**
@@ -44,6 +45,9 @@ public class WicketApplication extends WebApplication {
     @Override
     protected void init() {
         super.init();
+
+        setMarkupSettings(new MarkupSettings().setStripWicketTags(true));
+
         getComponentInstantiationListeners().add(new SpringComponentInjector(this));
 
         getSecuritySettings().setAuthorizationStrategy(new IAuthorizationStrategy.AllowAllAuthorizationStrategy() {

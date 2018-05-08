@@ -6,6 +6,11 @@
           integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     <link rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>
+        .feedbackPanelERROR {
+            color: red;
+        }
+    </style>
 </head>
 <body data-spy="scroll" data-target="#navScrollspy">
 <nav class="navbar navbar-light navbar-expand-md fixed-top" style="background-color: #e3f2fd;">
@@ -29,6 +34,7 @@
 </nav>
 <section id="top" class="jumbotron jumbotron-fluid">
     <div id="body" class="container">
+        <span wicket:id="feedback"></span>
         <wicket:child/>
     </div>
 </section>

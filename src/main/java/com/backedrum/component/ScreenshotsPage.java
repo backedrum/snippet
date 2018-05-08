@@ -94,7 +94,7 @@ public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
 
             setMarkupId("screenshotsForm");
 
-            add(new TextField<>("title").setType(String.class));
+            add(new TextField<>("title").setType(String.class).setRequired(true));
 
             setMultiPart(true);
 

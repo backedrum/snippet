@@ -94,8 +94,8 @@ public class HowTosPage extends BasePage implements AuthenticatedPage {
 
             setMarkupId("howtosForm");
 
-            add(new TextField<>("title").setType(String.class));
-            add(new TextArea<>("text").setType(String.class));
+            add(new TextField<>("title").setType(String.class).setRequired(true));
+            add(new TextArea<>("text").setType(String.class).setRequired(true));
         }
 
         @Override
