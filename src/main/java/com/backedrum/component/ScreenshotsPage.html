@@ -11,7 +11,12 @@
         </div>
         <div class="form-group">
             <label for="screenshotUpload">Select screenshot file(s):</label>
-            <input id="screenshotUpload" wicket:id="screenshotUpload" multiple="multiple" type="file" size="35" accept=".png, .jpg, .jpeg, .ico"/>
+            <input id="screenshotUpload" wicket:id="screenshotUpload" multiple="multiple" type="file" size="35"
+                   accept=".png, .jpg, .jpeg, .ico"/>
+        </div>
+        <div class="form-group">
+            <label for="keepOriginal">Keep original image</label>
+            <input type="checkbox" id="keepOriginal" wicket:id="keepOriginal"/>
         </div>
         <input type="submit" class="btn btn-dark" value="Submit" id="formsubmit"/>
     </form>
@@ -19,10 +24,11 @@
     <div wicket:id="screenshotsContainer">
         <div wicket:id="screenshots" id="screenshots">
             <div style="margin-bottom: 15px;">
-                <span class="text-muted" wicket:id="dateTime"></span>&nbsp;<a href="#" class="text-danger fas fa-trash-alt" wicket:id="removeScreenshot">Remove</a><br/>
+                <span class="text-muted" wicket:id="dateTime"></span>&nbsp;<a href="#" class="text-danger fas fa-trash-alt"
+                                                                              wicket:id="removeScreenshot">Remove</a><br/>
                 <span class="text-primary font-weight-bold font-italic" wicket:id="title" title="Click to edit"></span><br/>
                 <div wicket:id="images">
-                        <img class="img-fluid rounded" style="margin-top: 15px;" wicket:id="screenshotImage"/>
+                    <img class="img-fluid rounded" style="margin-top: 15px;" wicket:id="screenshotImage"/>
                 </div>
             </div>
         </div>
