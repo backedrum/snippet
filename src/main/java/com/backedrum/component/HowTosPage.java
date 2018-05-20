@@ -1,6 +1,6 @@
 package com.backedrum.component;
 
-import com.backedrum.component.util.Utils;
+import com.backedrum.component.util.UiUtils;
 import com.backedrum.model.BaseEntity;
 import com.backedrum.model.HowTo;
 import com.backedrum.service.ItemsService;
@@ -62,7 +62,7 @@ public class HowTosPage extends BasePage implements AuthenticatedPage {
                 removeLink.setDefaultFormProcessing(false);
                 listItem.add(removeLink);
 
-                listItem.add(Utils.constructTitle(howtoService, listItem.getModelObject(), listContainer));
+                listItem.add(UiUtils.constructTitle(howtoService, listItem.getModelObject(), listContainer));
 
                 val howToText = new AjaxEditableMultiLineLabel<>("text", new PropertyModel<>(listItem.getModelObject(), "text")) {
                     @Override

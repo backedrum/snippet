@@ -10,7 +10,8 @@ import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableMultiLineLabel;
 import org.apache.wicket.model.PropertyModel;
 
 @UtilityClass
-public class Utils {
+public class UiUtils {
+
 
     public static <T extends BaseEntity> AjaxEditableMultiLineLabel constructTitle(ItemsService<T> service, T entity, Component container) {
         val title = new AjaxEditableMultiLineLabel<>("title", new PropertyModel<>(entity, "title")) {

@@ -1,6 +1,6 @@
 package com.backedrum.component;
 
-import com.backedrum.component.util.Utils;
+import com.backedrum.component.util.UiUtils;
 import com.backedrum.model.BaseEntity;
 import com.backedrum.model.SourceCodeSnippet;
 import com.backedrum.service.ItemsService;
@@ -60,7 +60,7 @@ public class CodeSnippetsPage extends BasePage implements AuthenticatedPage {
                 removeLink.setDefaultFormProcessing(false);
                 listItem.add(removeLink);
 
-                listItem.add(Utils.constructTitle(snippetService, listItem.getModelObject(), listContainer));
+                listItem.add(UiUtils.constructTitle(snippetService, listItem.getModelObject(), listContainer));
 
                 listItem.add(new MultiLineLabel("sourceCode"));
             }
