@@ -23,8 +23,8 @@ public class HowTo extends BaseEntity {
     private String text;
 
     @Builder
-    public HowTo(String title, LocalDateTime dateTime, String text) {
-        super(title, dateTime);
+    public HowTo(String title, LocalDateTime dateTime, String tag, String text) {
+        super(title, dateTime, tag);
         this.text = text;
     }
 }

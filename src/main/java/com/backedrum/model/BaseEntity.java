@@ -29,10 +29,14 @@ public class BaseEntity implements IClusterable {
     private String title;
 
     @Column
+    private String tag;
+
+    @Column
     private LocalDateTime dateTime;
 
-    public BaseEntity(String title, LocalDateTime dateTime) {
+    public BaseEntity(String title, LocalDateTime dateTime, String tag) {
         this.title = title;
         this.dateTime = dateTime;
+        this.tag = tag;
     }
 }

@@ -22,8 +22,8 @@ public class SourceCodeSnippet extends BaseEntity {
     private String sourceCode;
 
     @Builder
-    public SourceCodeSnippet(String title, LocalDateTime dateTime, String sourceCode) {
-        super(title, dateTime);
+    public SourceCodeSnippet(String title, LocalDateTime dateTime, String tag, String sourceCode) {
+        super(title, dateTime, tag);
         this.sourceCode = sourceCode;
     }
 }

@@ -21,6 +21,10 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.value.ValueMap;
+import org.apache.wicket.validation.INullAcceptingValidator;
+import org.apache.wicket.validation.IValidatable;
+import org.apache.wicket.validation.IValidator;
+import org.apache.wicket.validation.validator.StringValidator;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -62,7 +66,8 @@ public class HowTosPage extends BasePage implements AuthenticatedPage {
                 removeLink.setDefaultFormProcessing(false);
                 listItem.add(removeLink);
 
-                listItem.add(UiUtils.constructTitle(howtoService, listItem.getModelObject(), listContainer));
+                listItem.add(UiUtils.constructEditableLabel(howtoService, listItem.getModelObject(), "title", listContainer));
+                listItem.add(UiUtils.constructEditableLabel(howtoService, listItem.getModelObject(), "tag", listContainer));
 
                 val howToText = new AjaxEditableMultiLineLabel<>("text", new PropertyModel<>(listItem.getModelObject(), "text")) {
                     @Override
@@ -92,8 +97,9 @@ public class HowTosPage extends BasePage implements AuthenticatedPage {
 
             setMarkupId("howtosForm");
 
-            add(new TextField<>("title").setType(String.class).setRequired(true));
-            add(new TextArea<>("text").setType(String.class).setRequired(true));
+            add(new TextField<String>("title").setType(String.class).setRequired(true));
+            add(new TextField<String>("tag").setType(String.class).add(new TagValidator()));
+            add(new TextArea<String>("text").setType(String.class).setRequired(true));
         }
 
         @Override
@@ -103,10 +109,12 @@ public class HowTosPage extends BasePage implements AuthenticatedPage {
             HowTo howto = HowTo.builder()
                     .dateTime(LocalDateTime.now())
                     .title((String) values.get("title"))
+                    .tag(values.get("tag") != null ? (String) values.get("tag") : null)
                     .text((String) values.get("text")).build();
             howtoService.saveItem(howto);
 
             values.put("title", "");
+            values.put("tag", "");
             values.put("text", "");
 
             setResponsePage(HowTosPage.class);

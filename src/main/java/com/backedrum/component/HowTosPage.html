@@ -10,6 +10,10 @@
                     <input type="text" id="title" class="form-control" wicket:id="title"/>
                 </div>
                 <div class="form-group">
+                    <label for="tag">Set tag:</label>
+                    <input type="text" id="tag" class="form-control" wicket:id="tag"/>
+                </div>
+                <div class="form-group">
                     <label for="todoText">Enter HOW-TO text:</label>
                     <textarea class="form-control" rows="10" id="todoText" wicket:id="text">Enter a text</textarea>
                 </div>
@@ -20,6 +24,7 @@
                 <div style="margin-bottom: 15px;">
                     <span class="text-muted" wicket:id="dateTime"></span>&nbsp;<a href="#" class="text-danger fas fa-trash-alt" wicket:id="removeHowTo">Remove</a><br/>
                 <span class="text-primary font-weight-bold font-italic" wicket:id="title" title="Click to edit"></span>
+                <span class="text-primary font-italic" wicket:id="tag" title="Click to edit"></span>
                 <div class="text-info" wicket:id="text" title="Click to edit"></div>
                 </div>
             </div>

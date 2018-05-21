@@ -27,8 +27,8 @@ public class Screenshot extends BaseEntity {
     private List<Image> images;
 
     @Builder
-    public Screenshot(String title, LocalDateTime dateTime, List<Image> images) {
-        super(title, dateTime);
+    public Screenshot(String title, LocalDateTime dateTime, String tag, List<Image> images) {
+        super(title, dateTime, tag);
         this.images = images;
     }
 }

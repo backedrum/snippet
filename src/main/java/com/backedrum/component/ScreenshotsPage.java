@@ -71,7 +71,8 @@ public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
                 removeLink.setDefaultFormProcessing(false);
                 listItem.add(removeLink);
 
-                listItem.add(UiUtils.constructTitle(screenshotService, listItem.getModelObject(), listContainer));
+                listItem.add(UiUtils.constructEditableLabel(screenshotService, listItem.getModelObject(), "title", listContainer));
+                listItem.add(UiUtils.constructEditableLabel(screenshotService, listItem.getModelObject(), "tag", listContainer));
 
                 listItem.add(new PropertyListView<>("images", listItem.getModelObject().getImages()) {
                     @Override
@@ -102,7 +103,8 @@ public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
 
             setMarkupId("screenshotsForm");
 
-            add(new TextField<>("title").setType(String.class).setRequired(true));
+            add(new TextField<String>("title").setType(String.class).setRequired(true));
+            add(new TextField<String>("tag").setType(String.class).add(new TagValidator()));
 
             setMultiPart(true);
 
@@ -138,10 +140,12 @@ public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
             val screenshot = Screenshot.builder()
                     .dateTime(LocalDateTime.now())
                     .title((String) values.get("title"))
+                    .tag(values.get("tag") != null ? (String) values.get("tag") : null)
                     .images(images).build();
             screenshotService.saveItem(screenshot);
 
             values.put("title", "");
+            values.put("tag", "");
 
             setResponsePage(ScreenshotsPage.class);
         }

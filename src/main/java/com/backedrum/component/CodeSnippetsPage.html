@@ -10,6 +10,10 @@
             <input type="text" id="title" class="form-control" wicket:id="title"/>
         </div>
         <div class="form-group">
+            <label for="tag">Enter tag:</label>
+            <input type="text" id="tag" class="form-control" wicket:id="tag"/>
+        </div>
+        <div class="form-group">
             <label for="sourceCode">Enter source code snippet:</label>
             <textarea id="sourceCode" class="form-control" wicket:id="sourceCode" rows="25">Source code</textarea>
         </div>
@@ -21,6 +25,7 @@
         <div style="margin-bottom: 15px;">
         <span class="text-muted" wicket:id="dateTime"></span>&nbsp;<a href="#" class="text-danger fas fa-trash-alt" wicket:id="removeSnippet">Remove</a><br/>
         <span class="text-primary font-weight-bold font-italic" wicket:id="title" title="Click to edit"></span>
+        <span class="text-primary font-weight-bold" wicket:id="tag" title="Click to edit"></span>
         <pre>
         <code wicket:id="sourceCode">
         </code>

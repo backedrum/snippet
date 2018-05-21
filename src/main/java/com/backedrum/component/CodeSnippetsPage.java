@@ -60,7 +60,8 @@ public class CodeSnippetsPage extends BasePage implements AuthenticatedPage {
                 removeLink.setDefaultFormProcessing(false);
                 listItem.add(removeLink);
 
-                listItem.add(UiUtils.constructTitle(snippetService, listItem.getModelObject(), listContainer));
+                listItem.add(UiUtils.constructEditableLabel(snippetService, listItem.getModelObject(), "title", listContainer));
+                listItem.add(UiUtils.constructEditableLabel(snippetService, listItem.getModelObject(), "tag", listContainer));
 
                 listItem.add(new MultiLineLabel("sourceCode"));
             }
@@ -78,8 +79,9 @@ public class CodeSnippetsPage extends BasePage implements AuthenticatedPage {
 
             setMarkupId("snippetsForm");
 
-            add(new TextField<>("title").setType(String.class).setRequired(true));
-            add(new TextArea<>("sourceCode").setType(String.class).setRequired(true));
+            add(new TextField<String>("title").setType(String.class).setRequired(true));
+            add(new TextField<String>("tag").setType(String.class).add(new TagValidator()));
+            add(new TextArea<String>("sourceCode").setType(String.class).setRequired(true));
         }
 
         @Override
@@ -89,10 +91,12 @@ public class CodeSnippetsPage extends BasePage implements AuthenticatedPage {
             val snippet = SourceCodeSnippet.builder()
                     .dateTime(LocalDateTime.now())
                     .title((String) values.get("title"))
+                    .tag(values.get("tag") != null ? (String) values.get("tag") : null)
                     .sourceCode((String) values.get("sourceCode")).build();
             snippetService.saveItem(snippet);
 
             values.put("title", "");
+            values.put("tag", "");
             values.put("sourceCode", "");
 
             setResponsePage(CodeSnippetsPage.class);
