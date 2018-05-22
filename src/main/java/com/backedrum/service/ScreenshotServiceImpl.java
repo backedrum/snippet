@@ -31,4 +31,9 @@ public class ScreenshotServiceImpl implements ItemsService<Screenshot> {
     public List<Screenshot> retrieveAllItems() {
         return repository.findAll();
     }
+
+    @Override
+    public List<String> getAllTags() {
+        return repository.findAllTags();
+    }
 }

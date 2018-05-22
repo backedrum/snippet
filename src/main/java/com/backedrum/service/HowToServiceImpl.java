@@ -31,4 +31,9 @@ public class HowToServiceImpl implements ItemsService<HowTo> {
     public List<HowTo> retrieveAllItems() {
         return repository.findAll();
     }
+
+    @Override
+    public List<String> getAllTags() {
+        return repository.findAllTags();
+    }
 }

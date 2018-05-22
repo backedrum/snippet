@@ -13,4 +13,6 @@ public interface ItemsService<T extends BaseEntity> {
     void removeItem(Long id);
 
     List<T> retrieveAllItems();
+
+    List<String> getAllTags();
 }

@@ -12,6 +12,7 @@ public abstract class BasePage extends WebPage {
         add(new BookmarkablePageLink("snippetsPage", CodeSnippetsPage.class));
         add(new BookmarkablePageLink("screenshotsPage", ScreenshotsPage.class));
         add(new BookmarkablePageLink("howtosPage", HowTosPage.class));
+        add(new BookmarkablePageLink("tagsPage", TagsPage.class));
         add(new FeedbackPanel("feedback"));
         add(new Label("footer", "https://github.com/backedrum/snippet"));
     }

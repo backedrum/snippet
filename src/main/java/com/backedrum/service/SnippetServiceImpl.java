@@ -31,4 +31,9 @@ public class SnippetServiceImpl implements ItemsService<SourceCodeSnippet> {
     public List<SourceCodeSnippet> retrieveAllItems() {
         return repository.findAll();
     }
+
+    @Override
+    public List<String> getAllTags() {
+        return repository.findAllTags();
+    }
 }
