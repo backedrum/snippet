@@ -5,7 +5,9 @@ import com.backedrum.repository.SnippetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("snippetService")
 public class SnippetServiceImpl implements ItemsService<SourceCodeSnippet> {
@@ -35,5 +37,10 @@ public class SnippetServiceImpl implements ItemsService<SourceCodeSnippet> {
     @Override
     public List<String> getAllTags() {
         return repository.findAllTags();
+    }
+
+    @Override
+    public List<SourceCodeSnippet> retrieveByTag(String tag) {
+        return repository.findByTag(tag).sorted(Comparator.comparing(SourceCodeSnippet::getTitle)).collect(Collectors.toList());
     }
 }

@@ -7,7 +7,6 @@ import com.backedrum.component.ScreenshotsPage;
 import com.backedrum.component.SignIn;
 import com.backedrum.component.SignedInSession;
 import com.backedrum.component.SignedOut;
-import com.backedrum.model.HowTo;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.Session;

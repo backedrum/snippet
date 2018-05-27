@@ -6,10 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Repository
 public interface ScreenshotRepository extends JpaRepository<Screenshot, Long> {
 
     @Query("SELECT s.tag FROM Screenshot s WHERE s.tag IN (select distinct ss.tag from Screenshot ss)")
     List<String> findAllTags();
+
+    Stream<Screenshot> findByTag(String tag);
 }

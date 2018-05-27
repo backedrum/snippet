@@ -2,6 +2,7 @@ package com.backedrum.component;
 
 import com.backedrum.service.TagService;
 import lombok.val;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.Model;
@@ -20,14 +21,7 @@ public class TagsPage extends BasePage implements AuthenticatedPage {
     }
 
     private Link<String> constructLink(String linkName, String tag) {
-        val link = new Link<String>(linkName) {
-            @Override
-            public void onClick() {
-                PageParameters pageParameters = new PageParameters();
-                pageParameters.add("tag", tag);
-//                setResponsePage(TagGroupPage.class, pageParameters);
-            }
-        };
+        val link = new BookmarkablePageLink<String>(tag, TagGroupPage.class, new PageParameters().add("tag", tag));
         link.setBody(Model.of(tag));
 
         return link;

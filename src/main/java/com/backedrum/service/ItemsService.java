@@ -15,4 +15,6 @@ public interface ItemsService<T extends BaseEntity> {
     List<T> retrieveAllItems();
 
     List<String> getAllTags();
+
+    List<T> retrieveByTag(String tag);
 }

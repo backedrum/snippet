@@ -1,0 +1,91 @@
+<html xmlns:wicket="http://wicket.apache.org">
+<wicket:head>
+    <title>Tag group</title>
+</wicket:head>
+<body>
+<wicket:extend>
+    <div id="tagGroupsAccordion">
+        <!-- How to items -->
+        <div class="card">
+            <div class="card-header bg-light" id="headingHowtos">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseHowtos" aria-expanded="true" aria-controls="collapseHowtos">
+                        How-To
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseHowtos" class="collapse show" aria-labelledby="headingHowtos" data-parent="#tagGroupsAccordion">
+                    <div wicket:id="howtosContainer" class="card-body">
+                        <div wicket:id="howtos" id="todos">
+                            <div style="margin-bottom: 15px;">
+                                <span class="text-muted" wicket:id="dateTime"></span>&nbsp;<a href="#" class="text-danger fas fa-trash-alt" wicket:id="removeHowTo">Remove</a><br/>
+                                <span class="text-primary font-weight-bold font-italic" wicket:id="title" title="Click to edit"></span>
+                                <span class="text-primary font-italic" wicket:id="tag" title="Click to edit"></span>
+                                <div class="text-info" wicket:id="text" title="Click to edit"></div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <!-- Snippets -->
+        <div class="card">
+            <div class="card-header bg-light" id="headingSnippets">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSnippets" aria-expanded="true" aria-controls="collapseSnippets">
+                        Source code snippets
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseSnippets" class="collapse" aria-labelledby="headingSnippets" data-parent="#tagGroupsAccordion">
+                <div wicket:id="snippetsContainer" class="cardBody" style="margin-left: 20px;">
+                    <div wicket:id="snippets" id="snippets">
+                        <div style="margin-bottom: 15px;">
+                            <span class="text-muted" wicket:id="dateTime"></span>&nbsp;<a href="#" class="text-danger fas fa-trash-alt" wicket:id="removeSnippet">Remove</a><br/>
+                            <span class="text-primary font-weight-bold font-italic" wicket:id="title" title="Click to edit"></span>
+                            <span class="text-primary font-weight-bold" wicket:id="tag" title="Click to edit"></span>
+                            <pre>
+                                <code wicket:id="sourceCode">
+                                </code>
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screenshots -->
+        <div class="card">
+            <div class="card-header bg-light" id="headingScreenshots">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseScreenshots" aria-expanded="false" aria-controls="collapseScreenshots">
+                        Screenshots
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseScreenshots" class="collapse" aria-labelledby="headingScreenshots" data-parent="#tagGroupsAccordion">
+            <div wicket:id="screenshotsContainer" class="cardBody" style="margin-left: 20px;">
+                <div wicket:id="screenshots" id="screenshots">
+                    <div style="margin-bottom: 15px;">
+                        <span class="text-muted" wicket:id="dateTime"></span>&nbsp;<a href="#" class="text-danger fas fa-trash-alt" wicket:id="removeScreenshot">Remove</a><br/>
+                        <span class="text-primary font-weight-bold font-italic" wicket:id="title" title="Click to edit"></span><br/>
+                        <span class="text-primary font-weight-bold" wicket:id="tag" title="Click to edit"></span><br/>
+                        <div wicket:id="images">
+                            <img class="img-fluid rounded" style="margin-top: 15px;" wicket:id="screenshotImage"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <form wicket:id="tagGroupForm" id="tagGroupForm" style="margin-top: 15px;">
+        <input type="submit" class="btn btn-dark" value="Back to tags list" id="formsubmit"/>
+    </form>
+</wicket:extend>
+</body>
+</html>

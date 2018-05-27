@@ -5,7 +5,9 @@ import com.backedrum.repository.ScreenshotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("screenshotService")
 public class ScreenshotServiceImpl implements ItemsService<Screenshot> {
@@ -35,5 +37,10 @@ public class ScreenshotServiceImpl implements ItemsService<Screenshot> {
     @Override
     public List<String> getAllTags() {
         return repository.findAllTags();
+    }
+
+    @Override
+    public List<Screenshot> retrieveByTag(String tag) {
+        return repository.findByTag(tag).sorted(Comparator.comparing(Screenshot::getTitle)).collect(Collectors.toList());
     }
 }

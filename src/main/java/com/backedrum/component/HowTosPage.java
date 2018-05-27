@@ -6,25 +6,13 @@ import com.backedrum.model.HowTo;
 import com.backedrum.service.ItemsService;
 import com.googlecode.wicket.jquery.ui.widget.tooltip.TooltipBehavior;
 import lombok.val;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
-import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableMultiLineLabel;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.value.ValueMap;
-import org.apache.wicket.validation.INullAcceptingValidator;
-import org.apache.wicket.validation.IValidatable;
-import org.apache.wicket.validation.IValidator;
-import org.apache.wicket.validation.validator.StringValidator;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -49,45 +37,8 @@ public class HowTosPage extends BasePage implements AuthenticatedPage {
         IModel<List<HowTo>> howToList = (IModel<List<HowTo>>) () -> howtoService.retrieveAllItems()
                 .stream().sorted(Comparator.comparing(BaseEntity::getTitle)).collect(Collectors.toList());
 
-        val listContainer = new WebMarkupContainer("howtosContainer");
-        listContainer.setOutputMarkupId(true);
-        listContainer.add(new PropertyListView<>("howtos", howToList) {
-            @Override
-            protected void populateItem(ListItem<HowTo> listItem) {
-                listItem.add(new Label("dateTime"));
-
-                val removeLink = new AjaxSubmitLink("removeHowTo", form) {
-                    @Override
-                    public void onSubmit(AjaxRequestTarget target) {
-                        howtoService.removeItem(listItem.getModelObject().getId());
-                        target.add(listContainer);
-                    }
-                };
-                removeLink.setDefaultFormProcessing(false);
-                listItem.add(removeLink);
-
-                listItem.add(UiUtils.constructEditableLabel(howtoService, listItem.getModelObject(), "title", listContainer));
-                listItem.add(UiUtils.constructEditableLabel(howtoService, listItem.getModelObject(), "tag", listContainer));
-
-                val howToText = new AjaxEditableMultiLineLabel<>("text", new PropertyModel<>(listItem.getModelObject(), "text")) {
-                    @Override
-                    protected void onSubmit(AjaxRequestTarget target) {
-                        val howTo = listItem.getModelObject();
-                        howTo.setText(getEditor().getValue());
-                        howtoService.saveItem(howTo);
-
-                        super.onSubmit(target);
-                        target.add(listContainer);
-                    }
-                };
-
-                listItem.add(howToText);
-            }
-        });
-
+        add(UiUtils.constructHowToList(form, howtoService, howToList)).setVersioned(false);
         add(new TooltipBehavior());
-
-        add(listContainer).setVersioned(false);
     }
 
     public final class HowToForm extends Form<ValueMap> {
