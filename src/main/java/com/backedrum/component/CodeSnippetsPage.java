@@ -36,7 +36,7 @@ public class CodeSnippetsPage extends BasePage implements AuthenticatedPage {
         IModel<List<SourceCodeSnippet>> snippets = (IModel<List<SourceCodeSnippet>>) () -> snippetService.retrieveAllItems()
                 .stream().sorted(Comparator.comparing(BaseEntity::getTitle)).collect(Collectors.toList());
 
-        add(UiUtils.constructCodeSnippetsList(form, snippetService, snippets)).setVersioned(false);
+        add(UiUtils.constructCodeSnippetsList(form, snippetService, snippets, null)).setVersioned(false);
         add(new TooltipBehavior());
     }
 

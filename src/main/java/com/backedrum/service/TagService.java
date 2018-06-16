@@ -3,10 +3,8 @@ package com.backedrum.service;
 import com.backedrum.model.HowTo;
 import com.backedrum.model.Screenshot;
 import com.backedrum.model.SourceCodeSnippet;
-import com.backedrum.model.TagGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

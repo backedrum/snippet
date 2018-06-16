@@ -37,23 +37,20 @@ public class TagGroupPage extends BasePage implements AuthenticatedPage {
 
         String tag = parameters.get("tag").toString();
 
-        val howTos = howtoService.retrieveByTag(tag);
-        Label count = new Label("howTosCount", "(" + howTos.size() + ")");
+        Label count = new Label("howTosCount", (IModel<Integer>) () -> howtoService.retrieveByTag(tag).size());
         count.setOutputMarkupId(true);
         add(count);
-        add(UiUtils.constructHowToList(form, howtoService, (IModel<List<HowTo>>) () -> howTos));
+        add(UiUtils.constructHowToList(form, howtoService, (IModel<List<HowTo>>) () -> howtoService.retrieveByTag(tag), count));
 
-        val snippets = snippetService.retrieveByTag(tag);
-        count = new Label("snippetsCount", "(" + snippets.size() + ")");
+        count = new Label("snippetsCount", (IModel<Integer>) () -> snippetService.retrieveByTag(tag).size());
         count.setOutputMarkupId(true);
         add(count);
-        add(UiUtils.constructCodeSnippetsList(form, snippetService, (IModel<List<SourceCodeSnippet>>) () -> snippets));
+        add(UiUtils.constructCodeSnippetsList(form, snippetService, (IModel<List<SourceCodeSnippet>>) () -> snippetService.retrieveByTag(tag), count));
 
-        val screenshots = screenshotService.retrieveByTag(tag);
-        count = new Label("screenshotsCount", "(" + screenshots.size() + ")");
+        count = new Label("screenshotsCount", (IModel<Integer>) () -> screenshotService.retrieveByTag(tag).size());
         count.setOutputMarkupId(true);
         add(count);
-        add(UiUtils.constructScreenshotsList(form, screenshotService, (IModel<List<Screenshot>>) () -> screenshots));
+        add(UiUtils.constructScreenshotsList(form, screenshotService, (IModel<List<Screenshot>>) () -> screenshotService.retrieveByTag(tag), count));
 
         add(form);
         add(new TooltipBehavior());

@@ -60,7 +60,7 @@ public class UiUtils {
      * @param howToList List to render
      * @return constructed list of howtos that is ready to be used in UI.
      */
-    public static WebMarkupContainer constructHowToList(Form<ValueMap> form, ItemsService<HowTo> service, IModel<List<HowTo>> howToList) {
+    public static WebMarkupContainer constructHowToList(Form<ValueMap> form, ItemsService<HowTo> service, IModel<List<HowTo>> howToList, Label count) {
         val listContainer = new WebMarkupContainer("howtosContainer");
         listContainer.setOutputMarkupId(true);
         listContainer.add(new PropertyListView<>("howtos", howToList) {
@@ -73,6 +73,9 @@ public class UiUtils {
                     public void onSubmit(AjaxRequestTarget target) {
                         service.removeItem(listItem.getModelObject().getId());
                         target.add(listContainer);
+                        if (count != null) {
+                            target.add(count);
+                        }
                     }
                 };
                 removeLink.setDefaultFormProcessing(false);
@@ -110,7 +113,8 @@ public class UiUtils {
      */
     public static WebMarkupContainer constructCodeSnippetsList(Form<ValueMap> form,
                                                                ItemsService<SourceCodeSnippet> service,
-                                                               IModel<List<SourceCodeSnippet>> snippets) {
+                                                               IModel<List<SourceCodeSnippet>> snippets,
+                                                               Label count) {
         val listContainer = new WebMarkupContainer("snippetsContainer");
         listContainer.setOutputMarkupId(true);
         listContainer.add(new PropertyListView<>("snippets", snippets) {
@@ -123,6 +127,9 @@ public class UiUtils {
                     public void onSubmit(AjaxRequestTarget target) {
                         service.removeItem(listItem.getModelObject().getId());
                         target.add(listContainer);
+                        if (count != null) {
+                            target.add(count);
+                        }
                     }
                 };
                 removeLink.setDefaultFormProcessing(false);
@@ -138,7 +145,10 @@ public class UiUtils {
         return listContainer;
     }
 
-    public static WebMarkupContainer constructScreenshotsList(Form<ValueMap> form, ItemsService<Screenshot> service, IModel<List<Screenshot>> screenshots) {
+    public static WebMarkupContainer constructScreenshotsList(Form<ValueMap> form,
+                                                              ItemsService<Screenshot> service,
+                                                              IModel<List<Screenshot>> screenshots,
+                                                              Label count) {
         val listContainer = new WebMarkupContainer("screenshotsContainer");
         listContainer.setOutputMarkupId(true);
         listContainer.add(new PropertyListView<>("screenshots", screenshots) {
@@ -151,6 +161,9 @@ public class UiUtils {
                     public void onSubmit(AjaxRequestTarget target) {
                         service.removeItem(listItem.getModelObject().getId());
                         target.add(listContainer);
+                        if (count != null) {
+                            target.add(count);
+                        }
                     }
                 };
                 removeLink.setDefaultFormProcessing(false);

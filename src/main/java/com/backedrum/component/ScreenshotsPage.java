@@ -46,7 +46,7 @@ public class ScreenshotsPage extends BasePage implements AuthenticatedPage {
         IModel<List<Screenshot>> screenshots = (IModel<List<Screenshot>>) () -> screenshotService.retrieveAllItems()
                 .stream().sorted(Comparator.comparing(BaseEntity::getTitle)).collect(Collectors.toList());
 
-        add(UiUtils.constructScreenshotsList(form, screenshotService, screenshots)).setVersioned(false);
+        add(UiUtils.constructScreenshotsList(form, screenshotService, screenshots, null)).setVersioned(false);
         add(new TooltipBehavior());
     }
 

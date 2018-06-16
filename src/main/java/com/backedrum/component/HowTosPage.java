@@ -37,7 +37,7 @@ public class HowTosPage extends BasePage implements AuthenticatedPage {
         IModel<List<HowTo>> howToList = (IModel<List<HowTo>>) () -> howtoService.retrieveAllItems()
                 .stream().sorted(Comparator.comparing(BaseEntity::getTitle)).collect(Collectors.toList());
 
-        add(UiUtils.constructHowToList(form, howtoService, howToList)).setVersioned(false);
+        add(UiUtils.constructHowToList(form, howtoService, howToList, null)).setVersioned(false);
         add(new TooltipBehavior());
     }
 
