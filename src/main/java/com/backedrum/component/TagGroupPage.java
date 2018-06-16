@@ -8,6 +8,7 @@ import com.backedrum.service.ItemsService;
 import com.backedrum.service.TagService;
 import com.googlecode.wicket.jquery.ui.widget.tooltip.TooltipBehavior;
 import lombok.val;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
@@ -36,9 +37,23 @@ public class TagGroupPage extends BasePage implements AuthenticatedPage {
 
         String tag = parameters.get("tag").toString();
 
-        add(UiUtils.constructHowToList(form, howtoService, (IModel<List<HowTo>>) () -> howtoService.retrieveByTag(tag)));
-        add(UiUtils.constructCodeSnippetsList(form, snippetService, (IModel<List<SourceCodeSnippet>>) () -> snippetService.retrieveByTag(tag)));
-        add(UiUtils.constructScreenshotsList(form, screenshotService, (IModel<List<Screenshot>>) () -> screenshotService.retrieveByTag(tag)));
+        val howTos = howtoService.retrieveByTag(tag);
+        Label count = new Label("howTosCount", "(" + howTos.size() + ")");
+        count.setOutputMarkupId(true);
+        add(count);
+        add(UiUtils.constructHowToList(form, howtoService, (IModel<List<HowTo>>) () -> howTos));
+
+        val snippets = snippetService.retrieveByTag(tag);
+        count = new Label("snippetsCount", "(" + snippets.size() + ")");
+        count.setOutputMarkupId(true);
+        add(count);
+        add(UiUtils.constructCodeSnippetsList(form, snippetService, (IModel<List<SourceCodeSnippet>>) () -> snippets));
+
+        val screenshots = screenshotService.retrieveByTag(tag);
+        count = new Label("screenshotsCount", "(" + screenshots.size() + ")");
+        count.setOutputMarkupId(true);
+        add(count);
+        add(UiUtils.constructScreenshotsList(form, screenshotService, (IModel<List<Screenshot>>) () -> screenshots));
 
         add(form);
         add(new TooltipBehavior());
