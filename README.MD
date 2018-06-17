@@ -3,23 +3,24 @@
 ### What it can be used for?
 It can be used for management of your code snippets, diagrams and other small stuff that is not a really complete application.
 
+### Prerequisites
+Java 1.9+,
+Maven 3.2.3+,
+Docker.
+
 ### How to run?
-a. Bootstrap Postgres in a docker container like this:
-```
-docker run -d -p 5432:5432 postgres:10.3
-```
-b. Create a new database called 'snippet'.
+Simply execute <b>./run.sh</b>. 
 
-c. Start a server:
-```
-mvn clean compile exec:java
-```
-d. Create an ADMIN user by executing this query to 'snippet' db:
-```
-insert into users (datetime, username, password) values(now()::timestamp, '<your user name>', '<password encoded in base64>');
-```
+It will create and initialize a docker container for Postgres DB if executed for the first time.
+It will also ask you to create an admin user to be used for Snippet. 
 
-Then point your browser to the <i>localhost://8080</i>
+Point your browser to <i>localhost://8080</i> if not done automatically.
+
+### Stop application
+Execute <b>./stop-server.sh</b> to stop java server or simply kill a process.
+
+### Cleanup
+Run <b>./destroy.sh</b> to stop the application and remove Postgres Docker container.
 
 ### License
 Apache License 2.0

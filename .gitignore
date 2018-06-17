@@ -1,6 +1,7 @@
 # Eclipse
 .classpath
 .project
+snippet*.log
 .settings/
 
 # Intellij
